@@ -25,3 +25,8 @@ def read(dir_path, header):
                             tmp.append(field.split('=')[1])
                         log_data.append(tmp)
     return pd.DataFrame(log_data, columns=header)
+
+
+# hash trick to represent id feature
+def hash_id(id, hash_size):
+    return hash(id) % hash_size

@@ -17,7 +17,7 @@ class AdsRankingServiceHandler:
     # get ranking score of an ad
     def ranking(self, ad_query):
         print "Got query: ", ad_query
-        x = self._model.transform_x(ad_query)
+        x = self._model.preprocessor().transform_x(ad_query)
         score = self._model.predict(x)
         return score
 

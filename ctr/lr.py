@@ -14,6 +14,7 @@ class LR:
         self._cols = 0
         self._params = {}
         self._model = LogisticRegression(max_iter=20)
+        self._preprocessor = Preprocessor()
         self.init_params()
         # self.train()
 
@@ -26,7 +27,7 @@ class LR:
 
     def train(self):
         print "Training model starts: "
-        train_x, train_y = Preprocessor().get_train_data()
+        train_x, train_y = self._preprocessor.build_lil_train()
         self._model.fit(train_x, train_y)
         print "Training model finished."
 
@@ -34,6 +35,9 @@ class LR:
         pred = self._model.predict_proba(x)[:, 1]
         print "ctr: " + str(pred[0])
         return float(pred[0])
+
+    def preprocessor(self):
+        return self._preprocessor
 
 if __name__ == '__main__':
     lr = LR()

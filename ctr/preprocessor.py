@@ -9,6 +9,8 @@ from scipy import sparse
 class Preprocessor:
     def __init__(self):
         self._params = {}
+        self._rows = 0
+        self._cols = 0
         self.init_params()
 
     def init_params(self):
@@ -34,17 +36,16 @@ class Preprocessor:
             i += 1
         clean_df = impression_data.drop(['time', 'impressionID', 'ip', 'searchID'], axis=1)
         del impression_data
-
         clean_array = clean_df.values.tolist()
         del clean_df
-        train_x = self.build_lil_train(clean_array)
-        print "Loading data finished."
-        return train_x, train_y
-
-    # build train_x in lil format
-    def build_lil_train(self, clean_array):
         self._rows = len(clean_array)
         self._cols = self._params['userID_size'] + self._params['adID_size'] + self._params['position_size']
+        return clean_array, train_y
+
+    # build train_x in lil format
+    def build_lil_train(self):
+        clean_array, train_y = self.get_train_data()
+
         train_x = sparse.lil_matrix((self._rows, self._cols), dtype=float)
         for i in xrange(self._rows):
             offset = 0
@@ -62,10 +63,12 @@ class Preprocessor:
             idx = utils.hash_id(clean_array[i][0], self._params['position_size'])
             train_x[i, offset + idx] = 1
             offset += self._params['position_size']
-        return train_x
+        print "Loading data finished."
+        return train_x, train_y
 
-    def build_tensorflow_train(self, clean_array):
-        pass
+    # build train_x for deep model
+    def build_deep_train(self):
+        clean_array, train_y = self.get_train_data()
 
 
     # transform ad query to train_x format

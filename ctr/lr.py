@@ -28,8 +28,11 @@ class LR:
     def train(self):
         print "Training model starts: "
         train_x, train_y = self._preprocessor.build_lil_train()
-        self._model.fit(train_x, train_y)
-        print "Training model finished."
+        if train_x.shape[0] == 0 or train_y.shape[0] == 0:
+            print "No sample is available."
+        else:
+            self._model.fit(train_x, train_y)
+            print "Training model finished."
 
     def predict(self, x):
         pred = self._model.predict_proba(x)[:, 1]

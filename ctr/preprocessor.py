@@ -45,7 +45,6 @@ class Preprocessor:
     # build train_x in lil format
     def build_lil_train(self):
         clean_array, train_y = self.get_train_data()
-
         train_x = sparse.lil_matrix((self._rows, self._cols), dtype=float)
         for i in xrange(self._rows):
             offset = 0

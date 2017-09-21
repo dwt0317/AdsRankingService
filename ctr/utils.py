@@ -12,7 +12,7 @@ def list2dict(mylist):
 
 # read log from hdfs
 def read(dir_path, header):
-    client = Client("http://localhost:50070")
+    client = Client("http://127.0.0.1:50070")
     log_data = []
     for date_dir in client.list(dir_path):
         for log_file in client.list(dir_path+'/'+date_dir):

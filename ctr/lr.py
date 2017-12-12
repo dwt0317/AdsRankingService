@@ -28,7 +28,7 @@ class LR:
     def train(self):
         print "Training model starts: "
         train_x, train_y = self._preprocessor.build_lil_train()
-        if train_x.shape[0] == 0 or train_y.shape[0] == 0:
+        if train_x.shape[0] == 0 or len(train_y) == 0:
             print "No sample is available."
         else:
             self._model.fit(train_x, train_y)
